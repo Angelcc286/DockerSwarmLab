@@ -1,0 +1,67 @@
+# ==========================================
+# SwarmOps Challenge - .gitignore
+# ==========================================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+**/secrets/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating systems
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Docker local overrides
+docker-compose.override.yml
+docker-stack.override.yml
+
+# Local test results
+test-results/
+reports/
+junit.xml
+coverage.xml
+
+# Local generated artifacts
+dist/
+build/
+*.egg-info/

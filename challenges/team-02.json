@@ -1,0 +1,8 @@
+{
+  "team": "team-02",
+  "ticket": "REL-202",
+  "required_image": "nginx:1.27-alpine",
+  "required_service": "web",
+  "required_replicas": 2,
+  "feature": "updates"
+}

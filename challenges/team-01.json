@@ -1,0 +1,8 @@
+{
+  "team": "team-01",
+  "ticket": "INC-101",
+  "required_image": "nginx:1.27-alpine",
+  "required_service": "api",
+  "required_replicas": 3,
+  "feature": "resilience"
+}

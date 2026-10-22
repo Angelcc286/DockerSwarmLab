@@ -1,0 +1,8 @@
+{
+  "team": "team-03",
+  "ticket": "SEC-303",
+  "required_image": "busybox:1.36",
+  "required_service": "vault_client",
+  "required_replicas": 1,
+  "feature": "secrets"
+}

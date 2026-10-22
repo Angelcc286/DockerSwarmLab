@@ -1,0 +1,8 @@
+{
+  "team": "team-05",
+  "ticket": "OPS-505",
+  "required_image": "nginx:1.27-alpine",
+  "required_service": "worker",
+  "required_replicas": 2,
+  "feature": "resources"
+}

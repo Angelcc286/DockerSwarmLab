@@ -1,0 +1,8 @@
+{
+  "team": "team-04",
+  "ticket": "NET-404",
+  "required_image": "traefik/whoami:v1.11",
+  "required_service": "frontend",
+  "required_replicas": 1,
+  "feature": "network"
+}

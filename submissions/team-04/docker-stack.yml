@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  frontend:
+    image: traefik/whoami:v1.11
+    deploy:
+      replicas: 1  # TODO: aplicar contrato de misión

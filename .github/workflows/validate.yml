@@ -1,0 +1,58 @@
+name: SwarmOps evaluation
+on:
+  pull_request:
+    branches: [main]
+    paths: ["submissions/**"]
+permissions:
+  contents: read
+jobs:
+  identify:
+    runs-on: ubuntu-latest
+    outputs:
+      team: ${{ steps.detect.outputs.team }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: detect
+        shell: bash
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ "$TITLE" =~ ^\[TEAM-(0[1-5])\] ]]; then
+            echo "team=team-${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          else
+            echo 'PR title must begin [TEAM-01] through [TEAM-05]'; exit 1
+          fi
+  evaluate:
+    needs: identify
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      TEAM: ${{ needs.identify.outputs.team }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Verify allowed changes
+        run: python scripts/check_pr.py
+      - name: Static contracts
+        run: python -m pytest -q tests/test_contracts.py --team "$TEAM"
+      - name: Initialize isolated one-node Swarm
+        run: |
+          docker swarm init --advertise-addr 127.0.0.1
+          docker info --format '{{.Swarm.LocalNodeState}}'
+      - name: Runtime checks
+        run: bash scripts/runtime_check.sh "$TEAM"
+      - name: Summary
+        if: always()
+        run: |
+          echo "## SwarmOps — $TEAM" >> "$GITHUB_STEP_SUMMARY"
+          echo "Review the static and runtime steps above. Teacher grades documentation, demo and presentation separately." >> "$GITHUB_STEP_SUMMARY"
