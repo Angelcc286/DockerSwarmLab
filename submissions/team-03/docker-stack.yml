@@ -1,6 +1,14 @@
 version: "3.8"
+
 services:
   vault_client:
     image: busybox:1.36
+    command: sh -c "cat /run/secrets/payment_api_key && sleep 3600"
+    secrets:
+      - payment_api_key
     deploy:
-      replicas: 1  # TODO: aplicar contrato de misión
+      replicas: 1
+
+secrets:
+  payment_api_key:
+    external: true
