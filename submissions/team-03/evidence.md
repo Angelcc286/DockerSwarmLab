@@ -6,6 +6,8 @@ Para resolver el incidente de exposición de credenciales detectado en la audito
 - **Gestión externa (external: true)**: El secreto demo_token se desacopla del ciclo de vida de la stack y del control de versiones (Git), evitando que quede incluido en imágenes o archivos YAML.
 - **Principio de mínimo privilegio**: El secreto se monta exclusivamente en el servicio autorizado (vault_client) mediante un sistema de archivos en memoria (tmpfs) ubicado en /run/secrets/demo_token. No se expone ningún puerto hacia el exterior (ports) ni se inyecta en variables de entorno.
 - **Control del proceso en busybox**: Dado que utilizamos la imagen busybox:1.36 se diseñó un command que valida la existencia del archivo del secreto, emite el log secret-mounted para trazabilidad y mantiene el proceso PID 1 activo para garantizar la estabilidad de la réplica 1/1.
+Se agrega "Command" debido a que se necesita para que el servicio tenga una acción a realizar.
+Añadimos el servicio secreto en base a la documentación oficial de Docker Swarm y se agrega también dentro del archivo `docker-stack.yml` con la propiedad `external: true` para evitar exponer la contraseña en el código fuente.
 
 ## Comandos de despliegue
 ```bash
